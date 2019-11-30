@@ -1,0 +1,16 @@
+USE students;
+
+DROP FUNCTION IF EXISTS students.averageRating;
+DELIMITER //
+CREATE FUNCTION averageRating()
+RETURNS INTEGER
+READS SQL DATA
+DETERMINISTIC
+BEGIN
+	DECLARE average INTEGER;
+	RETURN (SELECT AVG(DISTINCT rating) FROM students.student);
+END //
+DELIMITER ;
+
+SELECT * FROM student
+WHERE rating < (SELECT averageRating());
